@@ -22,10 +22,10 @@ function App() {
     return () => clearInterval(interval);
   }, [time]);
 
-  const moveSecond = `rotate-[342deg]`;
-  // const moveSecond = `rotate-[${
-  //   6 * currentTime?.split(' ')[0]?.split(':')[2]
-  // }deg]`;
+  // const moveSecond = `rotate-[342deg]`;
+  const moveSecond = `rotate-[${
+    6 * currentTime?.split(' ')[0]?.split(':')[2]
+  }deg]`;
   console.log(moveSecond);
 
   const moveMin = () => {};
