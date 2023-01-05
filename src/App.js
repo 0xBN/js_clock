@@ -8,28 +8,21 @@ function App() {
     'absolute text-center w-full h-full text-3xl md:text-5xl p-2';
   const handStyles = `absolute rounded-tr-md rounded-tl-md transform origin-bottom left-1/2 bottom-1/2 -translate-x-1/2`;
 
-  let time = new Date();
-
   useEffect(() => {
-    const setTime = () => {
-      time.toLocaleTimeString();
-      setCurrentTime(time.toLocaleTimeString());
-    };
-
     const interval = setInterval(() => {
-      setTime();
+      setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
     return () => clearInterval(interval);
-  }, [time]);
+  }, []);
 
   // const moveSecond = `rotate-[342deg]`;
   const moveSecond = `rotate-[${
     6 * currentTime?.split(' ')[0]?.split(':')[2]
   }deg]`;
-  console.log(moveSecond);
+  // console.log(moveSecond);
 
-  const moveMin = () => {};
-  const moveHour = () => {};
+  // const moveMin = () => {};
+  // const moveHour = () => {};
   return (
     <div className='bg-black text-white min-h-screen text-center border flex flex-col gap-8 items-center justify-center overflow-hidden'>
       <h1>Clock</h1>
