@@ -1,36 +1,48 @@
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState();
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
+  const [second, setSecond] = useState(0);
+  const [currentTime, setCurrentTime] = useState('');
 
-  const clockSize = `w-[75vw] min-w-[300px] max-w-[800px]`;
+  const clockSize = `min-w-[300px] max-w-[55vw] w-[75vw]`;
   const numberStyles =
     'absolute text-center w-full h-full text-3xl md:text-5xl p-2';
-  const handStyles = `absolute rounded-tr-md rounded-tl-md transform origin-bottom left-1/2 bottom-1/2 -translate-x-1/2`;
+  const handStyles =
+    'absolute rounded-full transform origin-bottom left-1/2 bottom-1/2 -translate-x-1/2';
 
   useEffect(() => {
     const interval = setInterval(() => {
+      let time = new Date().toLocaleTimeString();
+
+      let hrs = time.split(' ')[0].split(':')[0];
+      let mins = time.split(' ')[0].split(':')[1];
+      let secs = time.split(' ')[0].split(':')[2];
+
+      setHour(Number(hrs));
+      setMinute(Number(mins));
+      setSecond(Number(secs));
+
       setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // const moveSecond = `rotate-[342deg]`;
-  const moveSecond = `rotate-[${
-    6 * currentTime?.split(' ')[0]?.split(':')[2]
-  }deg]`;
-  // console.log(moveSecond);
+  const moveSecond = `${6 * second}deg`;
+  const moveMin = `${6 * (minute + second / 60)}deg`;
 
-  // const moveMin = () => {};
-  // const moveHour = () => {};
+  const moveHour = `${30 * (hour + minute / 60)}deg`;
+
+  console.log(moveMin);
+
   return (
-    <div className='bg-black text-white min-h-screen text-center border flex flex-col gap-8 items-center justify-center overflow-hidden'>
-      <h1>Clock</h1>
+    <div className='flex min-h-screen flex-col items-center  justify-center gap-8 overflow-hidden bg-black text-center text-white'>
       <div>currentTime {currentTime}</div>
 
       <div className={`grid place-content-center`}>
         <div
-          className={`relative bg-slate-600 ${clockSize} rounded-full aspect-square max-w-[90vw] `}
+          className={`relative bg-slate-600 ${clockSize} aspect-square max-w-[90vw] rounded-full `}
         >
           {/* Numbers */}
           <>
@@ -51,20 +63,22 @@ function App() {
           <>
             {/* Hour */}
             <div
-              className={`${handStyles} bg-black h-[30%] md:h-[34%] md:w-[15px] w-[10px] rotate-[90deg]`}
+              style={{ rotate: moveHour }}
+              className={`${handStyles} h-[30%] w-[5px]  bg-black md:h-[34%] md:w-[10px]`}
             ></div>
             {/* Minute */}
             <div
-              className={`${handStyles} absolute h-[37%] md:h-[45%] md:w-[10px] w-[5px] bg-blue-500 rotate-[0deg]`}
+              style={{ rotate: moveMin }}
+              className={`${handStyles} absolute h-[37%] w-[3px] bg-blue-500 md:h-[45%] md:w-[6px]`}
             ></div>
             {/* Second */}
             <div
-              className={`${handStyles} absolute h-[48%] w-[1px] md:w-[3px] bg-red-500 ${moveSecond}`}
-              // className={`${handStyles} absolute h-[48%] w-[1px] md:w-[3px] bg-red-500 rotate-[5deg]`}
+              style={{ rotate: moveSecond }}
+              className={`${handStyles} absolute h-[48%] w-[1px] bg-red-500 md:w-[2px] `}
             ></div>
             <div
-              className={`absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-black rounded-full md:w-8 md:h-8`}
-            ></div>
+              className={`absolute top-1/2 left-1/2 h-4 w-4 -translate-y-1/2 -translate-x-1/2 rounded-full bg-black md:h-10 md:w-10`}
+            />
           </>
         </div>
       </div>
